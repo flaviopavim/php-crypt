@@ -1,5 +1,62 @@
 <?php
-function caesar($string, $nivel) {
+/**
+ * PHP Cipher and String Manipulation Library
+ *
+ * This script contains a collection of functions for text encryption, 
+ * encoding, and manipulation. Below is an explanation of each function:
+ * 
+ * 1. **cesar($string, $level)**
+ *    - Implements a basic Caesar Cipher.
+ *    - Shifts characters in the string by a specified level ($level).
+ *    - Works only with the characters in the matrices a-z, A-Z, 0-9.
+ *    - Non-alphabetic characters remain unchanged.
+ *    - Usage: Encrypt and decrypt strings with a fixed shift.
+ * 
+ * 2. **charval($c)**
+ *    - Assigns a numeric value to a given character.
+ *    - For letters, values are 1-26 (a-z).
+ *    - For numbers, the value is the number itself.
+ *    - Non-alphanumeric characters return 0.
+ *    - Usage: Used as a helper for the Vigenère Cipher.
+ * 
+ * 3. **viginere($string, $key, $reverse = false)**
+ *    - Implements the Vigenère Cipher.
+ *    - Encrypts a string using a key, where each character in the key 
+ *      determines the shift for the corresponding character in the string.
+ *    - The reverse parameter allows decryption.
+ *    - Usage: Securely encode and decode strings using a keyword-based cipher.
+ * 
+ * 4. **sh($s, $l = 3)**
+ *    - Shuffles a string by grouping its characters based on the level ($l).
+ *    - Rearranges characters into grouped patterns.
+ *    - Usage: Scrambles a string for obfuscation purposes.
+ * 
+ * 5. **unsh($s, $l = 3)**
+ *    - Reverses the operation of the `sh` function.
+ *    - Restores a shuffled string to its original order.
+ *    - Usage: Unscrambles strings shuffled by the `sh` function.
+ * 
+ * Example:
+ * ```php
+ * $txt = "Hello World";
+ * $level = 3;
+ * $key = "Key123";
+ * 
+ * // Caesar Cipher
+ * $encoded = cesar($txt, $level);
+ * $decoded = cesar($encoded, -$level);
+ * 
+ * // Vigenère Cipher
+ * $vigenereEncoded = viginere($txt, $key);
+ * $vigenereDecoded = viginere($vigenereEncoded, $key, true);
+ * 
+ * // Shuffle and Unshuffle
+ * $shuffled = sh($txt, $level);
+ * $unshuffled = unsh($shuffled, $level);
+ * ```
+ */
+
+function caesar($string, $level) {
     /*
      * 'Caesar Cipher'
      * Code created by: Flávio Pavim
@@ -23,7 +80,7 @@ function caesar($string, $nivel) {
         for ($i = 0; $i < strlen($string); $i++) { // Iterates through each character
             $posm = strpos($m[$a], $string[$i]); // Finds the position of the character in $m
             if (is_numeric($posm)) { // If the character exists and is numeric
-                $s = $posm + $nivel;
+                $s = $posm + $level;
                 if ($s <= 0) { // Handles negative shift values
                     $n = 26; // Number of letters in the alphabet for the first two arrays
                     if ($a == 2) {
